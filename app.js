@@ -1,5 +1,6 @@
 const express = require('express');
 const layout = require('express-ejs-layouts');
+const methodOverride = require('method-override');
 const db = require('./config/db.js');
 const app = express();
 const port = 3000;
@@ -7,6 +8,26 @@ app.set('view engine', 'ejs');
 app.use(layout);
 app.set('layout', 'layouts/main');
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+
+app.delete('/student/:id', (req, res) => {
+    const studentId = req.params.id;
+
+    db.connect((err) => {
+        if (err) {
+            res.send('Error connecting to the database!');
+        } else {
+            db.query('DELETE FROM students WHERE id = ?', [studentId], (err, results) => {
+                if (err) {
+                    res.send('Error executing query!' + err);
+                } else {
+                    res.redirect('/student');
+                }
+            });
+        }
+    });
+});
+
 app.get('/', (req, res) => {
     res.render('index', { title: 'home', message: 'Hello there!' });
 });
@@ -72,7 +93,7 @@ app.get('/student/:id/show', (req, res) => {
 });
 
 app.get('/student/create', (req, res) => {
-    res.render('student/create', { title: 'Student Create Page', message: 'Welcome to the student create page!' });
+    res.render('student/delete', { title: 'Student Create Page', message: 'Welcome to the student create page!' });
 });
 app.post('/student', (req, res) => {
     // res.send('Received data: ' + JSON.stringify(req.body));
@@ -100,6 +121,9 @@ app.post('/student', (req, res) => {
         }
     });
 });
+
+
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

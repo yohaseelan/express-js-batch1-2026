@@ -49,7 +49,11 @@
             <td>Action</td>
             <td>
                 <a href="/student/<%= student.id %>/edit">Edit</a> |
-                <a href="/student/<%= student.id %>/delete">Delete</a>
+                <form action="/student/<%= student.id %>?_method=DELETE" method="post" style="display: inline;">
+
+                    <button type="submit">Delete</button>
+                </form>
+
             </td>
         </tr>
     </table>
