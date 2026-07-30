@@ -66,6 +66,7 @@ app.get('/student', (req, res) => {
     });
 
 });
+
 app.get('/student/:id/show', (req, res) => {
     const studentId = req.params.id;
     if (!studentId) {
@@ -93,8 +94,9 @@ app.get('/student/:id/show', (req, res) => {
 });
 
 app.get('/student/create', (req, res) => {
-    res.render('student/delete', { title: 'Student Create Page', message: 'Welcome to the student create page!' });
+    res.render('student/create', { title: 'Student Create Page', message: 'Welcome to the student create page!' });
 });
+
 app.post('/student', (req, res) => {
     // res.send('Received data: ' + JSON.stringify(req.body));
     const { admission_number, first_name, last_name } = req.body;
@@ -121,7 +123,7 @@ app.post('/student', (req, res) => {
         }
     });
 });
-
+    
 
 
 app.listen(port, () => {
