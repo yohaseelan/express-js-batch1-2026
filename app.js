@@ -92,6 +92,54 @@ app.get('/student/:id/show', (req, res) => {
         }
     });
 });
+app.get('/student/:id/edit', (req, res) => {
+    const studentId = req.params.id;
+
+    if (!studentId) {
+        res.status(400).send('Student ID is required');
+        return;
+    }
+
+    db.connect((err) => {
+        if (err) {
+            res.send('Error connecting to the database!');
+        } else {
+            db.query('SELECT * FROM students WHERE id = ?', [studentId], (err, results) => {
+                if (err) {
+                    res.send('Error executing query!');
+                } else if (results.length === 0) {
+                    res.status(404).render('student/not_found', { title: 'Student not found', message: 'The requested student was not found.' });
+                } else {
+                    res.render('student/edit', { title: 'Edit Student ' + results[0].first_name, student: results[0] });
+                }
+            });
+        }
+    });
+});
+app.put('/student/:id', (req, res) => {
+    const studentId = req.params.id;
+    const { admission_number, first_name, last_name } = req.body;
+
+    if (!admission_number || !first_name || !last_name) {
+        res.status(400).send('All fields are required');
+        return;
+    }
+
+    db.connect((err) => {
+        if (err) {
+            res.send('Error connecting to the database!');
+        } else {
+            db.query('UPDATE students SET admission_number = ?, first_name = ?, last_name = ? WHERE id = ?', [admission_number, first_name, last_name, studentId], (err, results) => {
+                if (err) {
+                    res.send('Error executing query!');
+                } else {
+                    res.redirect('/student');
+                }
+            });
+        }
+    });
+});
+
 
 app.get('/student/create', (req, res) => {
     res.render('student/create', { title: 'Student Create Page', message: 'Welcome to the student create page!' });
@@ -123,7 +171,7 @@ app.post('/student', (req, res) => {
         }
     });
 });
-    
+
 
 
 app.listen(port, () => {
