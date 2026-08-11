@@ -9,7 +9,7 @@ app.use(layout);
 app.set('layout', 'layouts/main');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
+app.use(express.static('public'));
 app.use('/student', require('./routes/student.js'));
 app.use('/grade', require('./routes/grade.js'));
 
