@@ -112,6 +112,7 @@ const updateStudent = (req, res) => {
 const createStudent=(req, res) => {
     res.render('student/create', { title: 'Student Create Page', message: 'Welcome to the student create page!' });
 };
+
 const addStudent =  (req, res) => {
     // res.send('Received data: ' + JSON.stringify(req.body));
     const { admission_number, first_name, last_name } = req.body;
