@@ -1,0 +1,40 @@
+<h1>
+    <%= title %>
+</h1>
+<p>
+    <%= message %>
+</p>
+<a href="/student/create">New Student</a>
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th>Admission No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% students.forEach((student)=> { %>
+            <tr>
+                <td>
+                    <%= student.admission_number %>
+                </td>
+                <td>
+                    <%= student.first_name %>
+                </td>
+                <td>
+                    <%= student.last_name %>
+                </td>
+                <td>
+                    <a href="/student/<%= student.id %>/show">View</a>
+                    <a href="/student/<%= student.id %>/edit">Edit</a>
+                    <form action="/student/<%= student.id %>?_method=DELETE" method="post" style="display: inline;">
+
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+    </tbody>
+</table>
