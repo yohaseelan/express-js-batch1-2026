@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-const db = mysql2.createConnection({
+const pool  = mysql2.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     database: process.env.DB_NAME,
@@ -12,6 +12,8 @@ const db = mysql2.createConnection({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
-});
 
+
+});
+const db = pool.promise();
 module.exports = db;
