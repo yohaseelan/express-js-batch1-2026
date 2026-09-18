@@ -9,23 +9,9 @@ const db = mysql2.createConnection({
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    enableKeepAlive: true,
-    keepAliveInitialDelay: 0
-});
-db.connect((err) => {
-    if (err) {
-        console.error("❌ MySQL connection failed:", err.message);
-        return;
-    }
-
-    console.log("✅ MySQL connected");
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-db.on("error", (err) => {
-    console.error("❌ MySQL connection error:", err.code, err.message);
-
-    if (err.code === "ECONNRESET") {
-        console.error("MySQL connection was reset.");
-    }
-});
 module.exports = db;
